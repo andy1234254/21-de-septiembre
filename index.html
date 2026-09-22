@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Girasol Voxel Interactivo</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+  <video id="bg-video" autoplay loop muted playsinline preload="auto" poster="/Media/poster.jpg">
+    <source src="/Media/Glowing-Caves.webm" type="video/webm">
+    <source src="/Media/Glowing-Caves.mp4" type="video/mp4">
+  </video>
+  <audio id="bg-audio" loop preload="auto">
+    <source src="/Media/Eres-tu.mp3" type="audio/mpeg">
+  </audio>
+  <canvas id="three-canvas"></canvas>
+  <div id="ui-overlay">
+    <div id="date-title" role="button" tabindex="0" aria-label="Mostrar imagen del 17 de agosto de 2026">17/08/2026</div>
+    <div id="memory-photo" aria-hidden="true">
+      <button id="memory-photo-close" type="button" aria-label="Cerrar imagen">×</button>
+      <img src="/Media/janelly.jpg" alt="Recuerdo especial" />
+    </div>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
