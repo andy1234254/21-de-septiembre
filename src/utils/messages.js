@@ -7,6 +7,6 @@ export const ROMANTIC_MESSAGES = [
   "Quiero ser unico y diferente para ti❤️",
   "Tus mensajes se llevan mis dias malos❤️",
   "Te amo porque sencillamente me haces feliz❤️",
-  "El frio sera mi excusa para poder abrazarte ❤️",
+  "El frio sera mi excusa para poder abrazarte❤️",
   "Quiero cuidarte, quererte y hacerte feliz hasta el final❤️ ",
 ]
