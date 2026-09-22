@@ -56,6 +56,36 @@ html, body {
   pointer-events: none;
 }
 
+#fullscreen-toggle {
+  position: fixed;
+  top: clamp(0.8rem, 3vw, 1.5rem);
+  left: clamp(0.8rem, 3vw, 1.5rem);
+  width: 2.8rem;
+  height: 2.8rem;
+  border: 2px solid #FFD34E;
+  color: #FFF3A0;
+  background: rgba(36, 22, 14, 0.78);
+  box-shadow: 3px 3px 0 #3D2314, 0 0 12px rgba(255, 191, 0, 0.35);
+  font: 1.6rem/1 sans-serif;
+  cursor: pointer;
+  pointer-events: auto;
+  z-index: 15;
+  transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+#fullscreen-toggle:hover,
+#fullscreen-toggle:focus-visible {
+  color: #FFFFFF;
+  background: #B35900;
+  outline: none;
+  transform: translateY(-2px);
+}
+
+#fullscreen-toggle:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 #3D2314;
+}
+
 #date-title {
   position: fixed;
   top: clamp(1rem, 4vw, 3rem);

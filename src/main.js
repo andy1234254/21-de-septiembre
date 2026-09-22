@@ -28,6 +28,7 @@ setupLights(scene)
 const video = document.getElementById('bg-video')
 const audio = document.getElementById('bg-audio')
 const uiOverlay = document.getElementById('ui-overlay')
+const fullscreenToggle = document.getElementById('fullscreen-toggle')
 const dateTitle = document.getElementById('date-title')
 const memoryPhoto = document.getElementById('memory-photo')
 const memoryPhotoClose = document.getElementById('memory-photo-close')
@@ -35,6 +36,45 @@ const orientationNotice = document.createElement('div')
 orientationNotice.className = 'orientation-notice'
 orientationNotice.innerHTML = '<div class="orientation-icon" aria-hidden="true">↔</div><p>Gira tu dispositivo<br>para continuar</p>'
 uiOverlay.appendChild(orientationNotice)
+
+function getFullscreenElement() {
+  return document.fullscreenElement || document.webkitFullscreenElement
+}
+
+function updateFullscreenButton() {
+  const isFullscreen = Boolean(getFullscreenElement())
+  fullscreenToggle.textContent = isFullscreen ? '⛶' : '⛶'
+  fullscreenToggle.setAttribute('aria-label', isFullscreen ? 'Salir de pantalla completa' : 'Activar pantalla completa')
+  fullscreenToggle.setAttribute('aria-pressed', String(isFullscreen))
+  fullscreenToggle.title = isFullscreen ? 'Salir de pantalla completa' : 'Pantalla completa'
+}
+
+async function toggleFullscreen() {
+  try {
+    if (getFullscreenElement()) {
+      if (document.exitFullscreen) {
+        await document.exitFullscreen()
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen()
+      }
+      return
+    }
+
+    const root = document.documentElement
+    if (root.requestFullscreen) {
+      await root.requestFullscreen()
+    } else if (root.webkitRequestFullscreen) {
+      root.webkitRequestFullscreen()
+    }
+  } catch (error) {
+    console.warn('Fullscreen unavailable:', error)
+  }
+}
+
+fullscreenToggle.addEventListener('click', toggleFullscreen)
+document.addEventListener('fullscreenchange', updateFullscreenButton)
+document.addEventListener('webkitfullscreenchange', updateFullscreenButton)
+updateFullscreenButton()
 
 function openMemoryPhoto() {
   if (isMobilePortrait() || memoryPhoto.classList.contains('is-open')) return
