@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
 </head>
 <body>
   <video id="bg-video" autoplay loop muted playsinline preload="auto" poster="/Media/poster.jpg">
@@ -20,7 +21,16 @@
   <canvas id="three-canvas"></canvas>
   <div id="ui-overlay">
     <button id="fullscreen-toggle" type="button" aria-label="Activar pantalla completa" aria-pressed="false" title="Pantalla completa">⛶</button>
-    <div id="date-title" role="button" tabindex="0" aria-label="Mostrar imagen del 17 de agosto de 2026">17/08/2026</div>
+    <div id="date-panel">
+      <div id="date-title" role="button" tabindex="0" aria-label="Mostrar imagen del 17 de agosto de 2026">17/08/2026</div>
+      <div id="elapsed-counter" aria-label="Tiempo transcurrido desde el 17 de agosto de 2026">
+        <span class="counter-unit"><span data-counter-value="months">0</span><span class="counter-label">Mes</span></span>
+        <span class="counter-unit"><span data-counter-value="days">00</span><span class="counter-label">Días</span></span>
+        <span class="counter-unit"><span data-counter-value="hours">00</span><span class="counter-label">Horas</span></span>
+        <span class="counter-unit"><span data-counter-value="minutes">00</span><span class="counter-label">Minutos</span></span>
+        <span class="counter-unit"><span data-counter-value="seconds">00</span><span class="counter-label">Segundos</span></span>
+      </div>
+    </div>
     <div id="memory-photo" aria-hidden="true">
       <button id="memory-photo-close" type="button" aria-label="Cerrar imagen">×</button>
       <img src="/Media/janelly.jpg" alt="Recuerdo especial" />

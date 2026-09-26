@@ -30,12 +30,71 @@ const audio = document.getElementById('bg-audio')
 const uiOverlay = document.getElementById('ui-overlay')
 const fullscreenToggle = document.getElementById('fullscreen-toggle')
 const dateTitle = document.getElementById('date-title')
+const elapsedCounter = document.getElementById('elapsed-counter')
+const counterValues = Object.fromEntries(
+  [...elapsedCounter.querySelectorAll('[data-counter-value]')]
+    .map(element => [element.dataset.counterValue, element])
+)
 const memoryPhoto = document.getElementById('memory-photo')
 const memoryPhotoClose = document.getElementById('memory-photo-close')
 const orientationNotice = document.createElement('div')
 orientationNotice.className = 'orientation-notice'
 orientationNotice.innerHTML = '<div class="orientation-icon" aria-hidden="true">↔</div><p>Gira tu dispositivo<br>para continuar</p>'
 uiOverlay.appendChild(orientationNotice)
+
+const quitoClock = new Intl.DateTimeFormat('en-US', {
+  timeZone: 'America/Guayaquil',
+  year: 'numeric',
+  month: 'numeric',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric',
+  second: 'numeric',
+  hourCycle: 'h23'
+})
+
+function getQuitoDateParts(date) {
+  return Object.fromEntries(quitoClock.formatToParts(date)
+    .filter(part => part.type !== 'literal')
+    .map(part => [part.type, Number(part.value)]))
+}
+
+function updateElapsedCounter() {
+  const now = getQuitoDateParts(new Date())
+  const start = { year: 2026, month: 8, day: 17 }
+  const nowAsUtc = Date.UTC(now.year, now.month - 1, now.day, now.hour, now.minute, now.second)
+  const startAsUtc = Date.UTC(start.year, start.month - 1, start.day)
+
+  if (nowAsUtc < startAsUtc) {
+    Object.values(counterValues).forEach(element => { element.textContent = '00' })
+    counterValues.months.textContent = '0'
+    elapsedCounter.setAttribute('aria-label', 'El contador comienza el 17 de agosto de 2026')
+    return
+  }
+
+  let months = (now.year - start.year) * 12 + now.month - start.month
+  let anchor = Date.UTC(start.year, start.month - 1 + months, start.day)
+  if (nowAsUtc < anchor) {
+    months -= 1
+    anchor = Date.UTC(start.year, start.month - 1 + months, start.day)
+  }
+
+  const elapsedSeconds = Math.max(0, Math.floor((nowAsUtc - anchor) / 1000))
+  const days = Math.floor(elapsedSeconds / 86400)
+  const hours = Math.floor((elapsedSeconds % 86400) / 3600)
+  const minutes = Math.floor((elapsedSeconds % 3600) / 60)
+  const seconds = elapsedSeconds % 60
+
+  counterValues.months.textContent = String(months)
+  counterValues.days.textContent = String(days).padStart(2, '0')
+  counterValues.hours.textContent = String(hours).padStart(2, '0')
+  counterValues.minutes.textContent = String(minutes).padStart(2, '0')
+  counterValues.seconds.textContent = String(seconds).padStart(2, '0')
+  elapsedCounter.setAttribute('aria-label', `Tiempo transcurrido: ${months} meses, ${days} días, ${hours} horas, ${minutes} minutos y ${seconds} segundos`)
+}
+
+updateElapsedCounter()
+setInterval(updateElapsedCounter, 1000)
 
 function getFullscreenElement() {
   return document.fullscreenElement || document.webkitFullscreenElement
